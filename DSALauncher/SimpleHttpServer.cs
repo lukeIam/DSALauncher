@@ -48,7 +48,6 @@ namespace DSALauncher
                 return;
             }
             _serverCancellationTokenSource.Cancel();
-            _listener.Stop();
             _listener = null;
         }
 
@@ -83,6 +82,7 @@ namespace DSALauncher
 
                 }
             }
+            _listener.Stop();
         }
 
     }

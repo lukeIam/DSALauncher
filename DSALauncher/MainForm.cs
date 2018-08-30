@@ -39,7 +39,7 @@ namespace DSALauncher
                 var notLoadedFiles = _launcher.Init();
                 if (notLoadedFiles.Length > 0)
                 {
-                    MessageBox.Show(string.Join("\n" ,notLoadedFiles), "Some files where missing", MessageBoxButtons.OK,
+                    MessageBox.Show(string.Join("\n", notLoadedFiles), "Some files where missing", MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
                 }
             }
@@ -96,8 +96,17 @@ namespace DSALauncher
                 return;
             }
 
+            string command = input.Text.ToLower().Trim();
+
+            // Exit requested?
+            if (command == "exit")
+            {
+                _server.Stop();
+                Application.Exit();
+            }
+
             // Trigger the launch of pdf the requested by the given command
-            bool result = _launcher.Launch(input.Text.Trim());
+            bool result = _launcher.Launch(command);
 
             if (result)
             {
