@@ -73,7 +73,6 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
-            this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.TransparencyKey = System.Drawing.Color.Gray;
             this.ResumeLayout(false);
