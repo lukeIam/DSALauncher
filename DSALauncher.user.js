@@ -14,7 +14,7 @@
     var port = 7964;
     $.map($("#Publikationen").parent().nextUntil("h2").find('li'), function( e, i ) {
         var name = $(e).children('a').first().text();
-        e.innerHTML = e.innerHTML.replace(/(?<=[^.] )[0-9]+/,
+        e.innerHTML = e.innerHTML.replace(/(?<=[^.] )[0-9]+/g,
             function(match) {
                 return '<a href="http://127.0.0.1:' + port + '/?book=' + name + '&page=' + match + '" target="_blank" >' + match + '</a>';
             });
