@@ -55,3 +55,6 @@ Just install the userscript and click on the new links on page numbers
 
 4. Start `DSALauncher.exe`
 5. [Optional] Install `DSALauncher.user.js` in your browser
+
+## Known issues
+- If a document is already open it will not change to the new position (adobe reader limitation)
