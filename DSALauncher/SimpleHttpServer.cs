@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace DSALauncher
 {
@@ -10,7 +11,8 @@ namespace DSALauncher
         private readonly int _port;
         private HttpListener _listener;
         private readonly Launcher _launcher;
-        private Thread _serverThread;
+        private CancellationTokenSource _serverCancellationTokenSource;
+    
 
         /// <summary>
         /// Create a new server instance.
@@ -32,9 +34,8 @@ namespace DSALauncher
             {
                 return;
             }
-
-            _serverThread = new Thread(StartListenerThread);
-            _serverThread.Start();
+            _serverCancellationTokenSource = new CancellationTokenSource();
+            Task.Run(() => StartListenerThread(), _serverCancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -46,8 +47,7 @@ namespace DSALauncher
             {
                 return;
             }
-
-            _serverThread.Abort();
+            _serverCancellationTokenSource.Cancel();
             _listener.Stop();
             _listener = null;
         }
@@ -60,7 +60,8 @@ namespace DSALauncher
             _listener = new HttpListener();
             _listener.Prefixes.Add("http://*:" + _port + "/");
             _listener.Start();
-            while (true)
+            var token = _serverCancellationTokenSource.Token;
+            while (!token.IsCancellationRequested)
             {
                 try
                 {

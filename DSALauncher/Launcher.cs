@@ -21,18 +21,33 @@ namespace DSALauncher
         public Launcher(Settings settings)
         {
             _settings = settings;
+        }
+
+        public string[] Init()
+        {
+            HashSet<string> notFoundFiles = new HashSet<string>();
+
             foreach (LaunchData file in _settings.Files)
             {
+                string path = file.PdfPath;
+                if (!Path.IsPathRooted(path))
+                {
+                    path = Path.Combine(_settings.PdfBasePath, path);
+                }
+
+                if (!File.Exists(path))
+                {
+                    notFoundFiles.Add(path);
+                    continue;
+                }
+
                 foreach (string keyword in file.Keywords)
                 {
-                    string path = file.PdfPath;
-                    if (!Path.IsPathRooted(path))
-                    {
-                        path = Path.Combine(_settings.PdfBasePath, path);
-                    }
                     _keyMapping.Add(keyword.ToLowerInvariant().Trim(), (path, file.Offset));
                 }
             }
+
+            return notFoundFiles.ToArray();
         }
 
         /// <summary>

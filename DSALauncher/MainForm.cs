@@ -20,9 +20,35 @@ namespace DSALauncher
             InitializeComponent();
 
             // Load settings from settings.json file
-            var settings = Settings.LoadFromFile("settings.json");
+            Settings settings = null;
+            try
+            {
+                settings = Settings.LoadFromFile("settings.json");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Could not load 'settings.json'", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                Environment.Exit(1);
+            }
+
             // Create a Launcher
-            _launcher = new Launcher(settings);
+            try
+            {
+                _launcher = new Launcher(settings);
+                var notLoadedFiles = _launcher.Init();
+                if (notLoadedFiles.Length > 0)
+                {
+                    MessageBox.Show(string.Join("\n" ,notLoadedFiles), "Some files where missing", MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Could not load launcher", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                Application.Exit();
+            }
 
             // Autocomple keywords
             var autoCompleteSource = new AutoCompleteStringCollection();
@@ -44,8 +70,16 @@ namespace DSALauncher
             // Start webserver if requested
             if (settings.WebserverActive)
             {
-                _server = new SimpleHttpServer(settings.WebserverPort, _launcher);
-                _server.Start();
+                try
+                {
+                    _server = new SimpleHttpServer(settings.WebserverPort, _launcher);
+                    _server.Start();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Could not start webserver", MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                }
             }
         }
 
