@@ -28,14 +28,15 @@ namespace DSALauncher
         /// <summary>
         /// Start the server.
         /// </summary>
-        public void Start()
+        public async Task Start()
         {
             if (_listener != null)
             {
                 return;
             }
             _serverCancellationTokenSource = new CancellationTokenSource();
-            Task.Run(() => StartListenerThread(), _serverCancellationTokenSource.Token);
+            
+            await Task.Run(StartListenerThread, _serverCancellationTokenSource.Token);
         }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace DSALauncher
         /// <summary>
         /// Start the server thread.
         /// </summary>
-        private void StartListenerThread()
+        private async Task StartListenerThread()
         {
             _listener = new HttpListener();
             _listener.Prefixes.Add("http://*:" + _port + "/");

@@ -8,9 +8,9 @@ namespace DSALauncher
     public partial class MainForm : Form
     {
         // Launcher to open pdf open commands
-        private readonly Launcher _launcher;
+        private Launcher _launcher;
         // Server instance to allow the companion browser extension to open pdfs.
-        private readonly SimpleHttpServer _server;
+        private SimpleHttpServer _server;
 
         /// <summary>
         /// Instantiates a new main form.
@@ -18,69 +18,6 @@ namespace DSALauncher
         public MainForm()
         {
             InitializeComponent();
-
-            // Load settings from settings.json file
-            Settings settings = null;
-            try
-            {
-                settings = Settings.LoadFromFile("settings.json");
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "Could not load 'settings.json'", MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                Environment.Exit(1);
-            }
-
-            // Create a Launcher
-            try
-            {
-                _launcher = new Launcher(settings);
-                var notLoadedFiles = _launcher.Init();
-                if (notLoadedFiles.Length > 0)
-                {
-                    MessageBox.Show(string.Join("\n", notLoadedFiles), "Some files where missing", MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "Could not load launcher", MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                Application.Exit();
-            }
-
-            // Autocomple keywords
-            var autoCompleteSource = new AutoCompleteStringCollection();
-            autoCompleteSource.AddRange(_launcher.GetKeywords());
-            input.AutoCompleteCustomSource = autoCompleteSource;
-            input.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-
-            // AlwaysTop
-            this.TopMost = settings.AlwaysTop;
-            
-            // Inactivity opacity
-            double opacity = Math.Max(0, Math.Min(1, settings.InactiveOpacity));
-            if (Math.Abs(opacity - 1) > 0.001)
-            {
-                input.GotFocus += (sender, args) => this.Opacity = 1;
-                input.LostFocus += (sender, args) => this.Opacity = opacity;
-            }
-
-            // Start webserver if requested
-            if (settings.WebserverActive)
-            {
-                try
-                {
-                    _server = new SimpleHttpServer(settings.WebserverPort, _launcher);
-                    _server.Start();
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.Message, "Could not start webserver", MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-                }
-            }
         }
 
         /// <summary>
@@ -132,6 +69,81 @@ namespace DSALauncher
             input.BackColor = targetColor;
             await Task.Delay(delay);
             input.BackColor = oldColor;
+        }
+
+        private async void MainForm_Load(object senderLoad, EventArgs eLoad)
+        {
+            await Init();
+        }
+
+        /// <summary>
+        /// Initializes the whole programm.
+        /// </summary>
+        /// <returns>async task</returns>
+        private async Task Init()
+        {
+            // Load settings from settings.json file
+            Settings settings = null;
+            try
+            {
+                settings = Settings.LoadFromFile("settings.json");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Could not load 'settings.json'", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                Environment.Exit(1);
+            }
+
+            // Create a Launcher
+            try
+            {
+                _launcher = new Launcher(settings);
+                var notLoadedFiles = _launcher.Init();
+                if (notLoadedFiles.Length > 0)
+                {
+                    MessageBox.Show(string.Join("\n", notLoadedFiles), "Some files where missing", MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Could not load launcher", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                Application.Exit();
+            }
+
+            // Autocomple keywords
+            var autoCompleteSource = new AutoCompleteStringCollection();
+            autoCompleteSource.AddRange(_launcher.GetKeywords());
+            input.AutoCompleteCustomSource = autoCompleteSource;
+            input.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+            // AlwaysTop
+            this.TopMost = settings.AlwaysTop;
+
+            // Inactivity opacity
+            double opacity = Math.Max(0, Math.Min(1, settings.InactiveOpacity));
+            if (Math.Abs(opacity - 1) > 0.001)
+            {
+                input.GotFocus += (sender, args) => this.Opacity = 1;
+                input.LostFocus += (sender, args) => this.Opacity = opacity;
+            }
+
+            // Start webserver if requested
+            if (settings.WebserverActive)
+            {
+                try
+                {
+                    _server = new SimpleHttpServer(settings.WebserverPort, _launcher);
+                    await _server.Start();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Could not start webserver", MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                }
+            }
         }
 
         // Allow drag around of the form
