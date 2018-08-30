@@ -5,6 +5,11 @@ VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSALauncher", "DSALauncher\DSALauncher.csproj", "{1858EE77-C3A4-4A9F-AF4A-95588B291004}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4D86D8F1-99C1-4BE9-B102-D9785DAAF0EC}"
+	ProjectSection(SolutionItems) = preProject
+		DSALauncher.user.js = DSALauncher.user.js
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

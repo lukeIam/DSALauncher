@@ -1,0 +1,17 @@
+﻿{
+  "PdfViewer": "C:\\Program Files (x86)\\Adobe\\Acrobat Reader DC\\Reader\\AcroRd32.exe",
+  "PdfCommandPage": "/A page={1} \"{0}\"",
+  "PdfCommandSearch": "/A search=\"{1}\" \"{0}\"",
+  "PdfBasePath": "C:\\DSA",
+  "AlwaysTop": true,
+  "InactiveOpacity": 0.8,
+  "WebserverActive": true,
+  "WebserverPort": 7964,
+  "Files": [
+    {
+      "Keywords": [ "Wege der Helden", "WdH", "Helden" ],
+      "PdfPath": "Regelwerke\\Wege der Helden.pdf",
+      "Offset": 1
+    }
+  ]
+}
