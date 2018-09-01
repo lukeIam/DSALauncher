@@ -40,8 +40,8 @@ Just install the userscript and click on the new links on page numbers
 | `PdfCommandSearch` | Arguments to trigger a search (`{0}`=`pdf path` `{1}`=`keyword`)                                | `/A search=\"{1}\" \"{0}\"`                                               |
 | `PdfBasePath`      | Base path to make relative paths absolute                                                       | 'C:\\DSA'                                                                 |
 | `AlwaysTop`        | If `true` the input field will always stay on top                                               | 'true'                                                                    |
-| `InactiveOpacity   | `A value between `0` and `1` which determinates the opacity of the inactive input field         | `0.8`                                                                     |
-| `WebserverActive   | If `true` a small webserver will be started which allows the companion userscript to open pdfs | `true`                                                                    |
+| `InactiveOpacity`   | `A value between `0` and `1` which determinates the opacity of the inactive input field         | `0.8`                                                                     |
+| `WebserverActive`   | If `true` a small webserver will be started which allows the companion userscript to open pdfs | `true`                                                                    |
 | `WebserverPort`    | The port the webserver should use                                                               | `7964`                                                                    |
 | `Files`            | List of the documents you own - see next table how to define documents                           | `[ ... ]`                                                                 |
 
@@ -49,9 +49,9 @@ Just install the userscript and click on the new links on page numbers
 
 | Key      | Description                                                                  | Example                                  |
 |----------|------------------------------------------------------------------------------|------------------------------------------|
-| Keywords | List of keywords for this document (adding wiki-aventurica name is sugested) | `[ "Wege der Helden", "WdH", "Helden" ]` |
-| PdfPath  | Path to your pdf file (can be absolute or relative to `PdfBasePath`)         | `Regelwerke\\Wege der Helden.pdf`        |
-| Offset   | Offset for the page numer for this document                                  | `1`                                      |
+| `Keywords` | List of keywords for this document (adding wiki-aventurica name is sugested) | `[ "Wege der Helden", "WdH", "Helden" ]` |
+| `PdfPath`  | Path to your pdf file (can be absolute or relative to `PdfBasePath`)         | `Regelwerke\\Wege der Helden.pdf`        |
+| `Offset`   | Offset for the page numer for this document                                  | `1`                                      |
 
 4. Allow the user to use the port:
 `netsh http add urlacl url=http://*:[Port]/ user=DOMAIN\user`  
