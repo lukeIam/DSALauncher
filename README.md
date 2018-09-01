@@ -41,7 +41,7 @@ Just install the userscript and click on the new links on page numbers
 | `PdfBasePath`      | Base path to make relative paths absolute                                                       | 'C:\\DSA'                                                                 |
 | `AlwaysTop`        | If `true` the input field will always stay on top                                               | 'true'                                                                    |
 | `InactiveOpacity   | `A value between `0` and `1` which determinates the opacity of the inactive input field         | `0.8`                                                                     |
-| `WebserverActive   | `If `true` a small webserver will be started which allows the companion userscript to open pdfs | `true`                                                                    |
+| `WebserverActive   | If `true` a small webserver will be started which allows the companion userscript to open pdfs | `true`                                                                    |
 | `WebserverPort`    | The port the webserver should use                                                               | `7964`                                                                    |
 | `Files`            | List of the documents you own - see next table how to define documents                           | `[ ... ]`                                                                 |
 
@@ -53,8 +53,13 @@ Just install the userscript and click on the new links on page numbers
 | PdfPath  | Path to your pdf file (can be absolute or relative to `PdfBasePath`)         | `Regelwerke\\Wege der Helden.pdf`        |
 | Offset   | Offset for the page numer for this document                                  | `1`                                      |
 
-4. Start `DSALauncher.exe`
-5. [Optional] Install `DSALauncher.user.js` in your browser
+4. Allow the user to use the port:
+```
+netsh http add urlacl url=http://*:[Port]/ user=DOMAIN\user
+```
+Optional - you can also run `DSALauncher.exe` with administrative rights.
+5. Start `DSALauncher.exe`
+6. [Optional] Install `DSALauncher.user.js` in your browser
 
 ## Known issues
 - If a document is already open it will not change to the new position (adobe reader limitation)
