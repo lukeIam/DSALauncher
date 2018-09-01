@@ -54,11 +54,10 @@ Just install the userscript and click on the new links on page numbers
 | Offset   | Offset for the page numer for this document                                  | `1`                                      |
 
 4. Allow the user to use the port:
-```
-netsh http add urlacl url=http://*:[Port]/ user=DOMAIN\user
-```
+`netsh http add urlacl url=http://*:[Port]/ user=DOMAIN\user`  
 Optional - you can also run `DSALauncher.exe` with administrative rights.
-5. Start `DSALauncher.exe`
+
+5. Start `DSALauncher.exe`  
 6. [Optional] Install `DSALauncher.user.js` in your browser
 
 ## Known issues
