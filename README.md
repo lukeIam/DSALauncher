@@ -29,6 +29,7 @@ Just install the userscript and click on the new links on page numbers
 `exit` + `enter` 
 
 ## HowTo install
+0. Install [.NET Framework 4.7.1](https://www.microsoft.com/net/download/dotnet-framework-runtime/net471) (if not already installed)
 1. Dowload the [latest release](https://github.com/lukeIam/DSALauncher/releases)
 2. Unzip the files to a folder of your choice
 3. Open the `settings.json` file in a editor
